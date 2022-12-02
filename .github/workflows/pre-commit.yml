@@ -11,13 +11,9 @@ on:
 
 jobs:
   pre-commit:
-    if: ${{ github.server_url == 'https://github.cds.internal.unity3d.com' }}
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GHE_ACCESS_TOKEN }}
-        submodules: recursive
     - uses: actions/setup-python@v2
       with:
         python-version: 3.8.x
@@ -38,14 +34,9 @@ jobs:
       run: |
         pre-commit run --all-files
   markdown-link-check:
-    # Only run on GitHub Enterprise
-    if: ${{ github.server_url == 'https://github.cds.internal.unity3d.com' }}
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-          token: ${{ secrets.GHE_ACCESS_TOKEN }}
-          submodules: recursive
     - uses: actions/setup-python@v2
     - uses: actions/setup-node@v2
       with:
@@ -60,13 +51,8 @@ jobs:
       run: |
         pre-commit run --hook-stage manual markdown-link-check --all-files
   validate-meta-files:
-    # Only run on GitHub Enterprise
-    if: ${{ github.server_url == 'https://github.cds.internal.unity3d.com' }}
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-          token: ${{ secrets.GHE_ACCESS_TOKEN }}
-          submodules: recursive
     - uses: actions/setup-python@v2
     - run: python utils/validate_meta_files.py
